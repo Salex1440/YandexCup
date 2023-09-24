@@ -7,7 +7,7 @@ import java.util.*;
 public class AlarmClocksMain {
 
     private static int n, x, k;
-    private static Map<Integer, Integer> map = new HashMap<>();
+    private static Map<Integer, Integer> map;
 
     public static void main(String[] args) throws FileNotFoundException {
         File file = new File("src/main/java/com/salex/year2019/AlarmClocks/input.txt");
@@ -15,13 +15,14 @@ public class AlarmClocksMain {
         n = scanner.nextInt(); // количество будильников
         x = scanner.nextInt(); // периодичность звонков
         k = scanner.nextInt(); // количество будильников, которое нужно отключить, чтобы Алексей проснулся
+        map = new HashMap<>(n);
         for (int i = 0; i < n; i++) {
             int time = scanner.nextInt();
             int key = time % x;
             if (!map.containsKey(key)) {
                map.put(key, time);
            } else {
-                Integer value = map.get(key);
+                int value = map.get(key);
                 value = value < time ? value : time;
                 map.put(key, value);
             }
