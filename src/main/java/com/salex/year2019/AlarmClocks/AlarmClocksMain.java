@@ -2,9 +2,7 @@ package com.salex.year2019.AlarmClocks;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 public class AlarmClocksMain {
 
@@ -14,18 +12,28 @@ public class AlarmClocksMain {
         int n = scanner.nextInt(); // количество будильников
         int x = scanner.nextInt(); // периодичность звонков
         int k = scanner.nextInt(); // количество будильников, которое нужно отключить, чтобы Алексей проснулся
-        Queue<Integer> t = new PriorityQueue<>(n); // моменты времени на которые были заведены будильники
+        Queue<Integer> t = new PriorityQueue<>(); // моменты времени на которые были заведены будильники
+        Map<Integer, Integer> groups = new HashMap<>();
         for (int i = 0; i < n; i++) {
-            t.add(scanner.nextInt());
+            int time = scanner.nextInt();
+            int key = time % x;
+            if (!groups.containsKey(key)) {
+               groups.put(key, time);
+           } else {
+                Integer value = groups.get(key);
+                value = value < time ? value : time;
+                groups.put(key, value);
+            }
+        }
+        for (Map.Entry<Integer, Integer> entry : groups.entrySet()) {
+            t.add(entry.getValue());
         }
 
-        int result = -1;
+        int result = 0;
         for (int i = 0; i < k; i++) {
             result = t.poll();
             Integer nextTime = result + x;
-            if (!t.contains(nextTime)) {
-                t.add(nextTime);
-            }
+            t.add(nextTime);
         }
 
         System.out.println(result);
