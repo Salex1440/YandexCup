@@ -1,25 +1,28 @@
 package com.salex.year2019.AlarmClocks;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class AlarmClocksMain {
 
     private static long n, x, k;
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         Map<Long, Long> map = new HashMap<>();
-        File file = new File("src/main/java/com/salex/year2019/AlarmClocks/input2.txt");
-        try (Scanner scanner = new Scanner(file)) {
-            n = scanner.nextInt(); // количество будильников
-            x = scanner.nextInt(); // периодичность звонков
-            k = scanner.nextInt(); // количество будильников, которое нужно отключить, чтобы Алексей проснулся
+        File file = new File("src/main/java/com/salex/year2019/AlarmClocks/input.txt");
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String nxk = br.readLine();
+            List<Long> list = Arrays.stream(nxk.split(" ")).map(Long::valueOf).collect(Collectors.toList());
+            n = list.get(0); // количество будильников
+            x = list.get(1); // периодичность звонков
+            k = list.get(2); // количество будильников, которое нужно отключить, чтобы Алексей проснулся
             long time, key, value;
+            String line = br.readLine();
+            List<Long> times = Arrays.stream(line.split(" ")).map(Long::valueOf).collect(Collectors.toList());
+
             for (int i = 0; i < n; i++) {
-                time = scanner.nextInt();
+                time = times.get(i);
                 key = time % x;
                 if (!map.containsKey(key)) {
                     map.put(key, time);
