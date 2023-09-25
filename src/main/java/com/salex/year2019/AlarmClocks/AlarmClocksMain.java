@@ -34,19 +34,21 @@ public class AlarmClocksMain {
     }
 
     private static int binSearch(int l, int r) {
-
-        int K = 0;
-        int T = l + (r - l)/2;
-        for (Map.Entry<Integer, Integer> e : map.entrySet()) {
-            K += countK(T, e.getValue());
+        while (l < r) {
+            int K = 0;
+            int T = l + (r - l)/2;
+            for (Map.Entry<Integer, Integer> e : map.entrySet()) {
+                K += countK(T, e.getValue());
+            }
+            if (K == k) {
+                return T;
+            } else if (K > k) {
+                r = T;
+            } else {
+                l = T;
+            }
         }
-        if (K == k) {
-            return T;
-        } else if (K > k) {
-            return binSearch(l, T);
-        } else {
-            return binSearch(T, r);
-        }
+        return -1;
     }
 
     private static int countK(int T, int t) {
