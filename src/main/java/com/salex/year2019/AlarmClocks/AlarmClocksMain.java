@@ -18,11 +18,14 @@ public class AlarmClocksMain {
             x = list.get(1); // периодичность звонков
             k = list.get(2); // количество будильников, которое нужно отключить, чтобы Алексей проснулся
             long time, key, value;
-            String line = br.readLine();
-            List<Long> times = Arrays.stream(line.split(" ")).map(Long::valueOf).collect(Collectors.toList());
-
             for (int i = 0; i < n; i++) {
-                time = times.get(i);
+                StringBuilder sb = new StringBuilder();
+                int ch;
+                while ((ch = br.read()) != -1) {
+                    if (ch == 32 || ch == 10) break;
+                    sb.append((char)ch);
+                }
+                time = Long.valueOf(sb.toString());
                 key = time % x;
                 if (!map.containsKey(key)) {
                     map.put(key, time);
