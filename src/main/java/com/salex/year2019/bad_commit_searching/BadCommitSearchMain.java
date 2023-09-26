@@ -6,8 +6,8 @@ public class BadCommitSearchMain {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int r = sc.nextInt();
-        int l = 0, m;
+        int r = sc.nextInt() + 1;
+        int l = 1, m;
         while (l < r) {
             m = (l + r) / 2;
             System.out.println(m + " \n");
