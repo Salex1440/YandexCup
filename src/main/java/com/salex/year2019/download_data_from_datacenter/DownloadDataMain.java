@@ -10,10 +10,7 @@ public class DownloadDataMain {
     public static void main(String[] args) throws IOException {
         String file = "src/main/java/com/salex/year2019/download_data_from_datacenter/input.txt";
         int n, q;
-        Map<Integer, Integer> servers = new HashMap<>();
-        Map<Integer, Set<Integer>> nodes = new HashMap<>();
         Map<Integer, Set<Integer>> links = new HashMap<>();
-        int cnt = 0;
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = br.readLine();
             n = Integer.parseInt(line);
@@ -54,6 +51,21 @@ public class DownloadDataMain {
                     set2.add(s1);
                     links.put(s2, set2);
                 }
+            }
+            line = br.readLine();
+            q = Integer.parseInt(line);
+            for (int i = 0; i < q; i++) {
+                line = br.readLine();
+                List<Integer> list = Arrays.stream(line.split(" "))
+                        .map(Integer::parseInt)
+                        .collect(Collectors.toList());
+                int x = list.get(0);
+                int k = list.get(1);
+                line = br.readLine();
+                Set<Integer> servers = Arrays.stream(line.split(" "))
+                        .map(Integer::parseInt)
+                        .collect(Collectors.toSet());
+                StringBuilder sb = new StringBuilder();
 
             }
 
