@@ -7,14 +7,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class DownloadDataMain {
-    private static Map<Integer, Set<Integer>> links = new HashMap<>();
+    private static Map<Integer, Set<Integer>> clusters = new HashMap<>();
     private static Map<Integer, Integer> nodes = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
-        String file = "src/main/java/com/salex/year2019/download_data_from_datacenter/input.txt";
+        String file = "src/main/java/com/salex/year2019/download_data_from_datacenter/input2.txt";
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            fillLinks(br);
-            int nodeNum = 0;
+            fillNodes(br);
             String line = br.readLine();
             int q = Integer.parseInt(line);
             for (int i = 0; i < q; i++) {
@@ -25,10 +24,6 @@ public class DownloadDataMain {
                 int x = list.get(0);
                 int k = list.get(1);
 
-                if (!nodes.containsKey(x)) {
-                    fillNodes(x, nodeNum);
-                    nodeNum++;
-                }
                 response(br, x, k);
             }
 
@@ -36,9 +31,10 @@ public class DownloadDataMain {
         }
     }
 
-    private static void fillLinks(BufferedReader br) throws IOException {
+    private static void fillNodes(BufferedReader br) throws IOException {
         String line = br.readLine();
         int n = Integer.parseInt(line);
+        int nodeNum = 0,node = 0;
         for (int i = 0; i < n; i++) {
             line = br.readLine();
             List<Integer> list = Arrays.stream(line.split(" "))
@@ -47,45 +43,40 @@ public class DownloadDataMain {
             Integer s1 = list.get(0);
             Integer s2 = list.get(1);
 
-            if (links.containsKey(s1) && links.containsKey(s2)) {
-                Set<Integer> set1 = links.get(s1);
-                set1.add(s2);
-                links.put(s1, set1);
-                Set<Integer> set2 = links.get(s2);
-                set2.add(s1);
-                links.put(s2, set2);
-            } else if (links.containsKey(s1)) {
-                Set<Integer> set1 = links.get(s1);
-                set1.add(s2);
-                links.put(s1, set1);
-                Set<Integer> set2 = new HashSet<>();
-                set2.add(s1);
-                links.put(s2, set2);
-            } else if (links.containsKey(s2)) {
-                Set<Integer> set2 = links.get(s2);
-                set2.add(s1);
-                links.put(s2, set2);
-                Set<Integer> set1 = new HashSet<>();
-                set1.add(s2);
-                links.put(s1, set1);
+            if (nodes.containsKey(s1) && nodes.containsKey(s2)) {
+                Integer node1 = nodes.get(s1);
+                Integer node2 = nodes.get(s2);
+                Set<Integer> set1 = clusters.get(node1);
+                Set<Integer> set2 = clusters.get(node2);
+                for (Integer s : set2) {
+                    set1.add(s);
+                    nodes.put(s, node1);
+                }
+                clusters.put(node1, set1);
+                clusters.remove(node2);
+            } else if (nodes.containsKey(s1)) {
+                node = nodes.get(s1);
+                nodes.put(s2, node);
+                Set<Integer> set = clusters.get(node);
+                set.add(s2);
+                clusters.put(node, set);
+            } else if (nodes.containsKey(s2)) {
+                node = nodes.get(s2);
+                nodes.put(s1, node);
+                Set<Integer> set = clusters.get(node);
+                set.add(s1);
+                clusters.put(node, set);
             } else {
-                Set<Integer> set1 = new HashSet<>();
-                set1.add(s2);
-                links.put(s1, set1);
-                Set<Integer> set2 = new HashSet<>();
-                set2.add(s1);
-                links.put(s2, set2);
+                nodes.put(s1, nodeNum);
+                nodes.put(s2, nodeNum);
+                Set<Integer> set = new HashSet<>();
+                set.add(s1);
+                set.add(s2);
+                clusters.put(nodeNum, set);
+                nodeNum++;
             }
         }
-    }
-
-    private static void fillNodes(Integer target, int cnt) {
-        if (nodes.containsKey(target)) return;
-        nodes.put(target, cnt);
-        Set<Integer> set = links.get(target);
-        for (Integer s : set) {
-            fillNodes(s, cnt);
-        }
+        System.out.println();
     }
 
     private static void response(BufferedReader br, int x, int k) throws IOException {
