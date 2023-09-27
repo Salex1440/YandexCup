@@ -7,7 +7,7 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 import java.net.*;
 
-public class AddingNumersMain {
+public class AddingNumbersMain {
 
     public static void main(String[] args) throws IOException {
         String file = "src/main/java/com/salex/year2019/adding_numbers/input.txt";
