@@ -5,12 +5,12 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import org.json.simple.JSONObject;
 
 public class PhoneNumberValidatorServer {
     public static void main(String[] args) throws Exception {
@@ -34,14 +34,18 @@ public class PhoneNumberValidatorServer {
             }
             String phoneNumber = query.substring(13);
             if (!validatePhoneNumber(phoneNumber)) {
-                exchange.sendResponseHeaders(400, 0);
-                exchange.getResponseBody().close();
+                String jsonString = formJsonResponse(false, null);
+                exchange.sendResponseHeaders(200, 0);
+                OutputStream os = exchange.getResponseBody();
+                os.write(jsonString.getBytes());
+                os.close();
                 return;
             }
             String normalized = normalizePhoneNumber(phoneNumber);
+            String jsonString = formJsonResponse(true, normalized);
             exchange.sendResponseHeaders(200, 0);
             OutputStream os = exchange.getResponseBody();
-            os.write(normalized.getBytes());
+            os.write(jsonString.getBytes());
             os.close();
         }
 
@@ -102,25 +106,14 @@ public class PhoneNumberValidatorServer {
             return sb.toString();
         }
 
-        private class Success {
-            private boolean status;
-            private String normalized;
-
-            public Success(boolean status, String normalized) {
-                this.status = status;
-                this.normalized = normalized;
+        private String formJsonResponse(boolean status, String normalized) {
+            JSONObject json = new JSONObject();
+            json.put("status", status);
+            if (status) {
+                json.put("normalized", normalized);
             }
+            return json.toJSONString();
         }
-
-        private class Error {
-            private boolean status;
-
-            public Error(boolean status) {
-                this.status = status;
-            }
-        }
-
-
     }
 
     static class PingHandler implements HttpHandler {
