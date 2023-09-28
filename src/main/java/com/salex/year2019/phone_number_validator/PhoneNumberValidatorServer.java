@@ -11,7 +11,7 @@ import com.sun.net.httpserver.HttpServer;
 public class PhoneNumberValidatorServer {
     public static void main(String[] args) throws Exception {
         HttpServer server = HttpServer.create(new InetSocketAddress(7777), 0);
-        server.createContext("/test", new MyHandler());
+        server.createContext("/validatePhoneNumber", new ValidatePhoneNumberHandler());
         server.createContext("/ping", new PingHandler());
         server.createContext("/shutdown", new ShutdownHandler(server));
         server.setExecutor(null); // creates a default executor
@@ -19,14 +19,29 @@ public class PhoneNumberValidatorServer {
         System.out.println("Server started");
     }
 
-    static class MyHandler implements HttpHandler {
+    static class ValidatePhoneNumberHandler implements HttpHandler {
         @Override
-        public void handle(HttpExchange t) throws IOException {
-            String response = "This is the response";
-            t.sendResponseHeaders(200, response.length());
-            OutputStream os = t.getResponseBody();
-            os.write(response.getBytes());
+        public void handle(HttpExchange exchange) throws IOException {
+            String query = exchange.getRequestURI().getQuery();
+            if (!validateQuery(query)) {
+                exchange.sendResponseHeaders(400, 0);
+                return;
+            }
+            String phoneNumber = query.substring(13);
+            exchange.sendResponseHeaders(200, 0);
+            OutputStream os = exchange.getResponseBody();
+            os.write(phoneNumber.getBytes());
             os.close();
+        }
+
+        private boolean validateQuery(String query) {
+            if (query == null) return false;
+            String[] args = query.split("&");
+            if (args.length != 1) return false;
+            String[] split = args[0].split("=");
+            if (split.length != 2) return false;
+            if (!split[0].equals("phone_number")) return false;
+            return true;
         }
     }
 
