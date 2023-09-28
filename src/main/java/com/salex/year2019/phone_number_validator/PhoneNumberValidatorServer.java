@@ -3,6 +3,9 @@ package com.salex.year2019.phone_number_validator;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -35,9 +38,10 @@ public class PhoneNumberValidatorServer {
                 exchange.getResponseBody().close();
                 return;
             }
+            String normalized = normalizePhoneNumber(phoneNumber);
             exchange.sendResponseHeaders(200, 0);
             OutputStream os = exchange.getResponseBody();
-            os.write(phoneNumber.getBytes());
+            os.write(normalized.getBytes());
             os.close();
         }
 
@@ -69,6 +73,33 @@ public class PhoneNumberValidatorServer {
                     pattern6.matcher(number).matches() ||
                     pattern7.matcher(number).matches() ||
                     pattern8.matcher(number).matches();
+        }
+
+        private String normalizePhoneNumber(String number) {
+            StringBuilder sb = new StringBuilder();
+            List<String> nums = new ArrayList<>();
+            Pattern pattern = Pattern.compile("\\d");
+            for (int i = 0; i < number.length(); i++) {
+                String c = number.substring(i, i+1);
+                if (pattern.matcher(c).matches()) {
+                    nums.add(c);
+                }
+            }
+            nums.remove(0);
+            sb.append("+7-");
+            sb.append(nums.get(0));
+            sb.append(nums.get(1));
+            sb.append(nums.get(2));
+            sb.append("-");
+            sb.append(nums.get(3));
+            sb.append(nums.get(4));
+            sb.append(nums.get(5));
+            sb.append("-");
+            sb.append(nums.get(6));
+            sb.append(nums.get(7));
+            sb.append(nums.get(8));
+            sb.append(nums.get(9));
+            return sb.toString();
         }
 
         private class Success {
