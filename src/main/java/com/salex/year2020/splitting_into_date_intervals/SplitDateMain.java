@@ -53,11 +53,32 @@ public class SplitDateMain {
 
     static List<String> getWeekIntervals(LocalDate start, LocalDate end) {
         List<String> result = new ArrayList<>();
-        if (start.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
-            result.add(start + " " + start);
-            start = start.plusDays(1);
-        }
         LocalDate temp;
+        if (start.getDayOfWeek().equals(DayOfWeek.TUESDAY)) {
+            temp = start.plusDays(5);
+            result.add(start + " " + temp);
+            start = temp.plusDays(1);
+        } else if (start.getDayOfWeek().equals(DayOfWeek.WEDNESDAY)) {
+            temp = start.plusDays(4);
+            result.add(start + " " + temp);
+            start = temp.plusDays(1);
+        } else if (start.getDayOfWeek().equals(DayOfWeek.THURSDAY)) {
+            temp = start.plusDays(3);
+            result.add(start + " " + temp);
+            start = temp.plusDays(1);
+        } else if (start.getDayOfWeek().equals(DayOfWeek.FRIDAY)) {
+            temp = start.plusDays(2);
+            result.add(start + " " + temp);
+            start = temp.plusDays(1);
+        } else if (start.getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
+            temp = start.plusDays(1);
+            result.add(start + " " + temp);
+            start = temp.plusDays(1);
+        } else if (start.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+            temp = start;
+            result.add(start + " " + temp);
+            start = temp.plusDays(1);
+        }
         while (start.isBefore(end) || start.equals(end)) {
             temp = start.plusDays(6);
             if (temp.isAfter(end)) {
@@ -89,15 +110,15 @@ public class SplitDateMain {
 
     static List<String> getQuarterIntervals(LocalDate start, LocalDate end) {
         List<String> result = new ArrayList<>();
-        LocalDate temp = start;
+        LocalDate temp;
         while (start.isBefore(end) || start.equals(end)) {
-            if (start.getMonthValue() >= 1 && start.getMonthValue() <= 3) {
+            if (start.getMonthValue() <= 3) {
                 temp = YearMonth.of(start.getYear(), 3).atEndOfMonth();
-            } else if (start.getMonthValue() >= 4 && start.getMonthValue() <= 6) {
+            } else if (start.getMonthValue() <= 6) {
                 temp = YearMonth.of(start.getYear(), 6).atEndOfMonth();
-            } else if (start.getMonthValue() >= 7 && start.getMonthValue() <= 9) {
+            } else if (start.getMonthValue() <= 9) {
                 temp = YearMonth.of(start.getYear(), 9).atEndOfMonth();
-            } else if (start.getMonthValue() >= 10 && start.getMonthValue() <= 12) {
+            } else {
                 temp = YearMonth.of(start.getYear(), 12).atEndOfMonth();
             }
             if (temp.isAfter(end)) {
