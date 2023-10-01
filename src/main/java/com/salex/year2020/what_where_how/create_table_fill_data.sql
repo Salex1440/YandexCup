@@ -1,13 +1,15 @@
-CREATE TABLE IF NOT EXISTS qrtz_log (
-    id integer primary key not null,
+create table qrtz_log (
+    id integer primary key autoincrement not null,
     job_name varchar(80) not null,
     job_group varchar(80) not null,
     trigger_fire_time timestamp with time zone not null,
     job_finished_time timestamp with time zone,
     job_status varchar(200),
-    host_name varchar(80) not null
+    host_name varchar(80) not null,
+    constraint con_name_group_fire_time unique (
+        job_name, job_group, trigger_fire_time, host_name
+    )
 );
-
 INSERT INTO qrtz_log(id, job_name, job_group, trigger_fire_time, job_finished_time, job_status, host_name)
 VALUES(1,'jobA','G1','2020-09-01 08:00:00',NULL,NULL,'host1'),
 (2,'jobA','G1','2020-09-01 07:00:00','2020-09-01 07:00:03','OK','host1'),
