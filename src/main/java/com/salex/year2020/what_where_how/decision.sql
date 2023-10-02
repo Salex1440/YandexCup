@@ -15,7 +15,7 @@ job_status,
 HD.max_host_duration
 FROM qrtz_log
 JOIN HD ON HD.host_name = qrtz_log.host_name
-WHERE job_status IS NOT NULL OR (strftime('%s', '2020-09-01 10:00:00') - strftime('%s', trigger_fire_time) > 2 * HD.max_host_duration)
+WHERE job_status IS NOT NULL OR (strftime('%s', '2020-09-01 10:00:00') - strftime('%s', trigger_fire_time) > IIF(HD.max_host_duration IS NULL, 2147483647, 2 * HD.max_host_duration))
 GROUP BY job_name
 HAVING max(trigger_fire_time)
 ;
