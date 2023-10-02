@@ -32,7 +32,7 @@ public class PassportNumberValidatorServer {
                 exchange.getResponseBody().close();
                 return;
             }
-            String passportCode = query.substring(14);
+            String passportCode = query.substring(14).trim();
             if (!validatePassportCode(passportCode)) {
                 String jsonString = formJsonResponse(false, null);
                 exchange.sendResponseHeaders(200, 0);
@@ -60,13 +60,13 @@ public class PassportNumberValidatorServer {
         }
 
         private boolean validatePassportCode(String number) {
-            Pattern pattern1 = Pattern.compile("^\\d{10}$");
-            Pattern pattern2 = Pattern.compile("^\\d{4}\\s\\d{6}$");
-            Pattern pattern3 = Pattern.compile("^\\(\\d{4}\\)\\s\\d{6}$");
-            Pattern pattern4 = Pattern.compile("^\\(\\d{4}\\)\\d{6}$");
-            Pattern pattern5 = Pattern.compile("^\\d{4}-\\d{6}$");
-            Pattern pattern6 = Pattern.compile("^PC-\\d{4}-\\d{6}$");
-            Pattern pattern7 = Pattern.compile("^\\d{4}\\+\\d{6}$");
+            Pattern pattern1 = Pattern.compile("^((?:8001)|(?:8982))\\d{6}$");
+            Pattern pattern2 = Pattern.compile("^((?:8001)|(?:8982))\\s\\d{6}$");
+            Pattern pattern3 = Pattern.compile("^\\(((?:8001)|(?:8982))\\)\\s\\d{6}$");
+            Pattern pattern4 = Pattern.compile("^\\(((?:8001)|(?:8982))\\)\\d{6}$");
+            Pattern pattern5 = Pattern.compile("^((?:8001)|(?:8982))-\\d{6}$");
+            Pattern pattern6 = Pattern.compile("^PC-((?:8001)|(?:8982))-\\d{6}$");
+            Pattern pattern7 = Pattern.compile("^((?:8001)|(?:8982))\\+\\d{6}$");
 
             return  pattern1.matcher(number).matches() ||
                     pattern2.matcher(number).matches() ||
