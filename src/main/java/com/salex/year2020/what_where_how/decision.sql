@@ -20,3 +20,23 @@ GROUP BY job_name
 HAVING max(trigger_fire_time)
 ;
 
+--WITH JFT AS (
+--SELECT
+--job_name AS jn,
+--job_finished_time AS tft_max,
+--job_status AS js
+--FROM qrtz_log
+--WHERE job_status = 'OK'
+--GROUP BY job_name
+--HAVING max(trigger_fire_time)
+--ORDER BY job_name, trigger_fire_time ASC
+--)
+--
+--SELECT
+--job_name, tft_max, trigger_fire_time, (strftime('%s', trigger_fire_time) - strftime('%s', tft_max))/3600 AS diff
+--FROM qrtz_log JOIN JFT ON job_name = JFT.jn
+--WHERE trigger_fire_time <> JFT.tft_max
+--AND job_status = 'OK'
+--GROUP BY job_name
+--;
+
