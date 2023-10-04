@@ -83,13 +83,15 @@ public class SearchSimilarStringsMain {
     }
 
     private static boolean equalsRows(List<String> impRow, List<String> row) {
+        int cnt = 0;
         for (int i = 0; i < row.size(); i++) {
             if (impRow.get(i).equals("") || row.get(i).equals("")) {
                 continue;
             } else if (!impRow.get(i).equals(row.get(i))) {
                 return false;
             }
+            cnt++;
         }
-        return true;
+        return cnt > 0;
     }
 }
