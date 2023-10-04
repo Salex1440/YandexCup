@@ -1,7 +1,6 @@
 package com.salex.year2020.searching_similar_strings;
 
 import java.io.BufferedReader;
-import java.io.CharArrayWriter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,28 +24,10 @@ public class SearchSimilarStringsMain {
             impCols.add(Integer.parseInt(split[i]) - 1);
         }
         for (int i = 0; i < n; i++) {
-            int ch;
-            CharArrayWriter caw = new CharArrayWriter();
-            List<String> row = new ArrayList<>();
-            for (int j = 0; j < k; j++) {
-                row.add("");
-            }
-            int ind = 0;
-            boolean isImportant = true;
+            List<String> row = initRow(k);
             line = br.readLine();
-            for (int start = 0, end = 0; start < line.length(); end++) {
-                if (end == line.length() || line.charAt(end) == '»') {
-                    row.set(ind++, line.substring(start, end));
-                    start = end + 1;
-                }
-            }
-            for (Integer col : impCols) {
-                if (row.get(col).equals("")) {
-                    isImportant = false;
-                    break;
-                }
-            }
-            if (isImportant) {
+            fillRow(line, row);
+            if (isImportantRow(impCols, row)) {
                 tableImp.add(row);
             } else {
                 table.add(row);
@@ -70,6 +51,35 @@ public class SearchSimilarStringsMain {
         }
 
         System.out.println(result);
+    }
+
+    private static List<String> initRow(int k) {
+        List<String> row = new ArrayList<>();
+        for (int j = 0; j < k; j++) {
+            row.add("");
+        }
+        return row;
+    }
+
+    private static void fillRow(String line, List<String> row) {
+        int ind = 0;
+        for (int start = 0, end = 0; start < line.length(); end++) {
+            if (end == line.length() || line.charAt(end) == '»') {
+                row.set(ind++, line.substring(start, end));
+                start = end + 1;
+            }
+        }
+    }
+
+    private static boolean isImportantRow(List<Integer> impCols, List<String> row) {
+        boolean isImportant = true;
+        for (Integer col : impCols) {
+            if (row.get(col).equals("")) {
+                isImportant = false;
+                break;
+            }
+        }
+        return isImportant;
     }
 
     private static boolean equalsRows(List<String> impRow, List<String> row) {
