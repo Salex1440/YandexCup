@@ -33,22 +33,18 @@ public class SearchSimilarStringsMain {
             }
             int ind = 0;
             boolean isImportant = true;
-            while ((ch = br.read()) != '\n' && (ch != -1)) {
-                if (ch != '»') {
-                    caw.append((char)ch);
-                } else {
-                    if (isImportant && impCols.contains(ind) && caw.size() == 0) {
-                        isImportant = false;
-                    }
-                    row.set(ind++, caw.toString());
-                    caw.reset();
+            line = br.readLine();
+            for (int start = 0, end = 0; start < line.length(); end++) {
+                if (end == line.length() || line.charAt(end) == '»') {
+                    row.set(ind++, line.substring(start, end));
+                    start = end + 1;
                 }
             }
-            if (isImportant && impCols.contains(ind) && caw.size() == 0) {
-                isImportant = false;
-            }
-            if (caw.size() > 0) {
-                row.set(ind, caw.toString());
+            for (Integer col : impCols) {
+                if (row.get(col).equals("")) {
+                    isImportant = false;
+                    break;
+                }
             }
             if (isImportant) {
                 tableImp.add(row);
