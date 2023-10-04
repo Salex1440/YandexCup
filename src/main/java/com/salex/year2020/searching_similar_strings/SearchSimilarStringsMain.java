@@ -5,7 +5,6 @@ import java.io.CharArrayWriter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class SearchSimilarStringsMain {
@@ -58,6 +57,33 @@ public class SearchSimilarStringsMain {
             }
         }
 
-        System.out.println();
+        int result = 0;
+        for (int i = 0; i < tableImp.size(); i++) {
+            for (int j = i + 1; j < tableImp.size(); j++) {
+                if (equalsRows(tableImp.get(i), tableImp.get(j))) {
+                    result++;
+                }
+            }
+        }
+        for (int i = 0; i < tableImp.size(); i++) {
+            for (int j = 0; j < table.size(); j++) {
+                if (equalsRows(tableImp.get(i), table.get(j))) {
+                    result++;
+                }
+            }
+        }
+
+        System.out.println(result);
+    }
+
+    private static boolean equalsRows(List<String> impRow, List<String> row) {
+        for (int i = 0; i < row.size(); i++) {
+            if (impRow.get(i).equals("") || row.get(i).equals("")) {
+                continue;
+            } else if (!impRow.get(i).equals(row.get(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 }
