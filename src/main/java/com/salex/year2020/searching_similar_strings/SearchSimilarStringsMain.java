@@ -1,6 +1,7 @@
 package com.salex.year2020.searching_similar_strings;
 
 import java.io.BufferedReader;
+import java.io.CharArrayWriter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,8 +26,7 @@ public class SearchSimilarStringsMain {
         }
         for (int i = 0; i < n; i++) {
             String[] row = new String[k];
-            line = br.readLine();
-            fillRow(line, row);
+            fillRow(br, row);
             if (isImportantRow(impCols, row)) {
                 tableImp.add(row);
             } else {
@@ -51,6 +51,21 @@ public class SearchSimilarStringsMain {
         }
 
         System.out.println(result);
+    }
+
+    private static void fillRow(BufferedReader br, String[] row) throws IOException {
+        int ch, ind = 0;
+        CharArrayWriter caw = new CharArrayWriter();
+        while ((ch = br.read()) != -1 && (ch != '\n')) {
+            if (ch == '»') {
+                row[ind++] = caw.toString();
+                caw.reset();
+            } else {
+                caw.append((char)ch);
+            }
+        }
+        if (caw.size() > 0) row[ind] = caw.toString();
+        if (row[row.length - 1] == null) row[row.length - 1] = "";
     }
 
     private static void fillRow(String line, String[] row) {
