@@ -18,13 +18,13 @@ public class SearchSimilarStringsMain {
         split = line.split(" ");
         int s = Integer.parseInt(split[0]);
         List<Integer> impCols = new ArrayList<>();
-        List<List<String>> table = new ArrayList<>();
-        List<List<String>> tableImp = new ArrayList<>();
+        List<String[]> table = new ArrayList<>();
+        List<String[]> tableImp = new ArrayList<>();
         for (int i = 1; i < split.length; i++) {
             impCols.add(Integer.parseInt(split[i]) - 1);
         }
         for (int i = 0; i < n; i++) {
-            List<String> row = initRow(k);
+            String[] row = new String[k];
             line = br.readLine();
             fillRow(line, row);
             if (isImportantRow(impCols, row)) {
@@ -53,28 +53,21 @@ public class SearchSimilarStringsMain {
         System.out.println(result);
     }
 
-    private static List<String> initRow(int k) {
-        List<String> row = new ArrayList<>();
-        for (int j = 0; j < k; j++) {
-            row.add("");
-        }
-        return row;
-    }
-
-    private static void fillRow(String line, List<String> row) {
+    private static void fillRow(String line, String[] row) {
         int ind = 0;
         for (int start = 0, end = 0; start < line.length(); end++) {
             if (end == line.length() || line.charAt(end) == '»') {
-                row.set(ind++, line.substring(start, end));
+                row[ind++] = line.substring(start, end);
                 start = end + 1;
             }
         }
+        if (row[row.length - 1] == null) row[row.length - 1] = "";
     }
 
-    private static boolean isImportantRow(List<Integer> impCols, List<String> row) {
+    private static boolean isImportantRow(List<Integer> impCols, String[] row) {
         boolean isImportant = true;
         for (Integer col : impCols) {
-            if (row.get(col).equals("")) {
+            if (row[col].equals("")) {
                 isImportant = false;
                 break;
             }
@@ -82,12 +75,12 @@ public class SearchSimilarStringsMain {
         return isImportant;
     }
 
-    private static boolean equalsRows(List<String> impRow, List<String> row) {
+    private static boolean equalsRows(String[] impRow, String[] row) {
         int cnt = 0;
-        for (int i = 0; i < row.size(); i++) {
-            if (impRow.get(i).equals("") || row.get(i).equals("")) {
+        for (int i = 0; i < row.length; i++) {
+            if (impRow[i].equals("") || row[i].equals("")) {
                 continue;
-            } else if (!impRow.get(i).equals(row.get(i))) {
+            } else if (!impRow[i].equals(row[i])) {
                 return false;
             }
             cnt++;
