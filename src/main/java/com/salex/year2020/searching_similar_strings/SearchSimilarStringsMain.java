@@ -68,17 +68,6 @@ public class SearchSimilarStringsMain {
         if (row[row.length - 1] == null) row[row.length - 1] = "";
     }
 
-    private static void fillRow(String line, String[] row) {
-        int ind = 0;
-        for (int start = 0, end = 0; start < line.length(); end++) {
-            if (end == line.length() || line.charAt(end) == '»') {
-                row[ind++] = line.substring(start, end);
-                start = end + 1;
-            }
-        }
-        if (row[row.length - 1] == null) row[row.length - 1] = "";
-    }
-
     private static boolean isImportantRow(List<Integer> impCols, String[] row) {
         boolean isImportant = true;
         for (Integer col : impCols) {
