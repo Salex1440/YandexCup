@@ -20,8 +20,11 @@ public class DatacentersMain {
         int[] value = new int[n];
         Arrays.fill(A, m);
         TreeMap<Integer, Integer> treeMap = new TreeMap<>();
-        int i, j, maxI = 0, minI = 0;
-        for (int c = 0; c < q; c++) {
+        TreeSet<Integer> zeroSet = new TreeSet<>();
+        for (int i = 0; i < n; i++) {
+            zeroSet.add(i);
+        }
+        for (int i, j, c = 0; c < q; c++) {
             switch (readWord(br)) {
                 case "RESET":
                     i = Integer.parseInt(readWord(br)) - 1;
@@ -32,13 +35,14 @@ public class DatacentersMain {
                     int val = A[i] * R[i];
                     value[i] = val;
                     if (!treeMap.containsKey(val) || treeMap.get(val) > i) {
+                        if (val > 0) {
+                            zeroSet.remove(i);
+                        }
                         treeMap.put(val, i);
                         if (val != prev) {
                             treeMap.remove(prev);
                         }
                     }
-                    maxI = getMaxInd(value, n);
-                    minI = getMinInd(value, n);
                     break;
                 case "DISABLE":
                     i = Integer.parseInt(readWord(br)) - 1;
@@ -50,22 +54,21 @@ public class DatacentersMain {
                         val = A[i] * R[i];
                         value[i] = val;
                         if (!treeMap.containsKey(val) || treeMap.get(val) > i) {
+                            if (val > 0) {
+                                zeroSet.remove(i);
+                            }
                             treeMap.put(val, i);
                             if (val != prev) {
                                 treeMap.remove(prev);
                             }
                         }
-                        maxI = getMaxInd(treeMap);
-                        minI = getMinInd(value, n);
                     }
                     break;
                 case "GETMAX":
                     System.out.println(getMaxInd(treeMap) + 1);
-                    System.out.println(maxI + 1);
                     break;
                 case "GETMIN":
-                    System.out.println(-1);
-                    System.out.println(minI + 1);
+                    System.out.println(getMinInd(treeMap, zeroSet) + 1);
                     break;
             }
         }
@@ -99,12 +102,12 @@ public class DatacentersMain {
     }
 
 
-    private static int getMinInd(TreeMap<Integer, Integer> treeMap) {
-        int minI = 0;
-        if (treeMap.size() > 1) {
-            minI = treeMap.firstEntry().getValue();
+    private static int getMinInd(TreeMap<Integer, Integer> treeMap, TreeSet<Integer> zeroSet) {
+        if (zeroSet.size() > 0) {
+            return zeroSet.first();
+        } else {
+            return treeMap.firstEntry().getValue();
         }
-        return minI;
     }
 
     public static int getMinInd(int[] value, int n) {
