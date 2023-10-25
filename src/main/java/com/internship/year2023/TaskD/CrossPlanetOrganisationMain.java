@@ -30,10 +30,15 @@ public class CrossPlanetOrganisationMain {
             }
         }
 
-        for (int i = 1; i <= n; i++) {
-            System.out.print(nodes.get(i).getBarrier() + " ");
+        String output = "src/main/java/com/internship/year2023/TaskD/output.txt";
+        try (BufferedWriter writter = new BufferedWriter(new FileWriter(output))) {
+            for (int i = 1; i <= n; i++) {
+                writter.write(nodes.get(i).getBarrier() + " ");
+            }
         }
-
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static String readWord(BufferedReader br) throws IOException {
