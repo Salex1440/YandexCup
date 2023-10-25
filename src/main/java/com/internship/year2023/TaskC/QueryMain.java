@@ -37,27 +37,23 @@ public class QueryMain {
                 case ">":
                     Integer val = Integer.parseInt(readWord(br));
                     List<Integer> list = table.get(colName);
-                    Set<Integer> temp = new HashSet<>();
-                    for (int ind : indexes) {
+                    Iterator<Integer> it = indexes.iterator();
+                    while (it.hasNext()) {
+                        int ind = it.next();
                         if (list.get(ind) <= val) {
-                            temp.add(ind);
+                            it.remove();
                         }
-                    }
-                    for (int t : temp) {
-                        indexes.remove(t);
                     }
                     break;
                 case "<":
                     val = Integer.parseInt(readWord(br));
                     list = table.get(colName);
-                    temp = new HashSet<>();
-                    for (int ind : indexes) {
+                    it = indexes.iterator();
+                    while (it.hasNext()) {
+                        int ind = it.next();
                         if (list.get(ind) >= val) {
-                            temp.add(ind);
+                            it.remove();
                         }
-                    }
-                    for (int t : temp) {
-                        indexes.remove(t);
                     }
                     break;
             }
