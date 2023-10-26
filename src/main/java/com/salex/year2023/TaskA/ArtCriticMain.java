@@ -11,15 +11,15 @@ public class ArtCriticMain {
         BufferedReader br = new BufferedReader(new FileReader(file));
         int n = Integer.parseInt(readWord(br));
         int m = Integer.parseInt(readWord(br));
-        List<Integer> nums = new ArrayList<>();
+        List<Long> nums = new ArrayList<>();
         for (int i = 0; i < m; i++) {
-            int num = Integer.parseInt(readWord(br));
+            long num = Integer.parseInt(readWord(br));
             if (num > 0) {
                 nums.add(num);
             }
         }
 
-        int result = 0;
+        long result = 0;
         for (int i = 0; i < nums.size(); i++) {
             result += Math.pow(nums.get(i), 2);
             for (int j = i + 1, cnt = 0; j < nums.size() && cnt < nums.get(i); j++, cnt++) {
