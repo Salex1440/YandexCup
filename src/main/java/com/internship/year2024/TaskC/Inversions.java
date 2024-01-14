@@ -15,7 +15,9 @@ public class Inversions {
 
         for (int i = 0; i < p.length - 1; i++) {
             for (int j = i + 1; j < p.length; j++) {
-                sum += moveAndCount(p.clone(), i, j);
+                swap(p, i, j);
+                sum += countInversions(p);
+                swap(p, i, j);
                 cnt++;
             }
         }
@@ -34,11 +36,10 @@ public class Inversions {
         return a;
     }
 
-    private static int moveAndCount(int[] p, int i, int j) {
+    private static void swap(int[] p, int i, int j) {
         int t = p[j];
         p[j] = p[i];
         p[i] = t;
-        return countInversions(p);
     }
 
     private static int countInversions(int[] p) {
