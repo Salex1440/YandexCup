@@ -7,15 +7,15 @@ public class Racing {
         File file = new File("src/main/java/com/internship/year2024/TaskB/input.txt");
         BufferedReader br = new BufferedReader(new FileReader(file));
         int n = Integer.parseInt(readWord(br));
-        int t = Integer.parseInt(readWord(br));
-        int s = Integer.parseInt(readWord(br));
-        int[] v = new int[n];
+        long t = Integer.parseInt(readWord(br));
+        long s = Integer.parseInt(readWord(br));
+        long[] v = new long[n];
         for (int i = 0; i < n; i++) {
             v[i] = Integer.parseInt(readWord(br));
         }
 
-        int[] c = new int[n];
-        int[] r = new int[n];
+        long[] c = new long[n];
+        long[] r = new long[n];
         for (int i = 0; i < n; i++) {
             c[i] = v[i] * t / s;
             r[i] = v[i] * t % s;
