@@ -4,7 +4,7 @@ import java.io.*;
 
 public class Racing {
     public static void main(String[] args) throws IOException {
-        File file = new File("src/main/java/com/internship/year2024/TaskB/input.txt");
+        File file = new File("src/main/java/com/internship/year2024/TaskB/input4.txt");
         BufferedReader br = new BufferedReader(new FileReader(file));
         int n = Integer.parseInt(readWord(br));
         long t = Long.parseLong(readWord(br));
@@ -20,7 +20,7 @@ public class Racing {
             c[i] = v[i] * t / s;
             r[i] = v[i] * t % s;
         }
-        int result = 0;
+        long result = 0;
         for (int i = 1; i < n; i++) {
             if (c[0] > c[i]) {
                 result += c[0] - c[i];
