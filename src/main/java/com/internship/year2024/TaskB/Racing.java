@@ -7,11 +7,11 @@ public class Racing {
         File file = new File("src/main/java/com/internship/year2024/TaskB/input.txt");
         BufferedReader br = new BufferedReader(new FileReader(file));
         int n = Integer.parseInt(readWord(br));
-        long t = Integer.parseInt(readWord(br));
-        long s = Integer.parseInt(readWord(br));
+        long t = Long.parseLong(readWord(br));
+        long s = Long.parseLong(readWord(br));
         long[] v = new long[n];
         for (int i = 0; i < n; i++) {
-            v[i] = Integer.parseInt(readWord(br));
+            v[i] = Long.parseLong(readWord(br));
         }
 
         long[] c = new long[n];
