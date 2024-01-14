@@ -22,10 +22,9 @@ public class Racing {
         }
         int result = 0;
         for (int i = 1; i < n; i++) {
-            if (c[0] > c[i] && r[0] > r[i]) {
+            if (c[0] > c[i]) {
                 result += c[0] - c[i];
-            } else if (c[0] > c[i] && r[0] <= r[i]) {
-                result += c[0] - c[i] - 1;
+                if (r[0] <= r[i]) result--;
             } else if (c[0] == c[i] && r[0] > r[i]) {
                 result++;
             }
