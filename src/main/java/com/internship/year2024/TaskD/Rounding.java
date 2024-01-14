@@ -4,7 +4,7 @@ import java.io.*;
 
 public class Rounding {
     public static void main(String[] args) throws IOException {
-        File file = new File("src/main/java/com/internship/year2024/TaskD/input2.txt");
+        File file = new File("src/main/java/com/internship/year2024/TaskD/input5.txt");
         BufferedReader br = new BufferedReader(new FileReader(file));
         int n = Integer.parseInt(readWord(br));
         long x = Integer.parseInt(readWord(br));
@@ -18,14 +18,23 @@ public class Rounding {
         }
 
         long[] c = new long[n];
-        long r = 0;
-        for (int i = 0; i < n && x > 0; i++) {
-            if (b[i] + r >= sum) {
-                c[i] = (b[i] + r) / sum;
-                x -= c[i];
-                r = (b[i] + r) % sum;
-            } else if (b[i] < sum) {
-                r += b[i];
+        while (x > 0) {
+            long max = 0;
+            int ind = 0;
+            for (int i = 0; i < n; i++) {
+                if (b[i] > max) {
+                    ind = i;
+                    max = b[i];
+                }
+            }
+            if (b[ind] >= sum) {
+                c[ind] += b[ind] / sum;
+                b[ind] -= c[ind] * sum;
+                x -= c[ind];
+            } else {
+                c[ind]++;
+                b[ind] -= sum;
+                x--;
             }
         }
 
