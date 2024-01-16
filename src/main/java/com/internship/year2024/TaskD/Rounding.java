@@ -36,6 +36,7 @@ public class Rounding {
                 b[ind] -= sum;
                 x--;
             }
+            if (x < 0) c[ind]++;
         }
 
         for (int i = 0; i < n; i++) {
