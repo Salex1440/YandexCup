@@ -1,4 +1,4 @@
-package com.internship.year2024.TaskA;
+package com.internship.year2024.winter.TaskA;
 
 import java.io.BufferedReader;
 import java.io.File;

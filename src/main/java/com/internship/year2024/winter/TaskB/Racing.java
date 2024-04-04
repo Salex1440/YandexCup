@@ -1,4 +1,4 @@
-package com.internship.year2024.TaskB;
+package com.internship.year2024.winter.TaskB;
 
 import java.io.*;
 
