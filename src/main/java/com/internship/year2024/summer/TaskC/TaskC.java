@@ -1,6 +1,8 @@
 package com.internship.year2024.summer.TaskC;
 
 import java.io.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TaskC {
 
@@ -10,13 +12,21 @@ public class TaskC {
         int n = Integer.parseInt(readWord(br));
         int[] a = new int[n];
         int[] b = new int[n];
+        Set<Integer> setA = new HashSet<>();
+        Set<Integer> setB = new HashSet<>();
         boolean[] c = new boolean[n];
+        int result = n;
         for (int i = 0; i < n; i++) {
             a[i] = Integer.parseInt(readWord(br));
             b[i] = Integer.parseInt(readWord(br));
+            if (setA.contains(a[i]) || setB.contains(b[i])) {
+                c[i] = true;
+                result--;
+            }
+            setA.add(a[i]);
+            setB.add(b[i]);
         }
 
-        int result = n;
         for (int i = 0; i < n; i++) {
             if (c[i]) continue;
             for (int j = i + 1; j < n; j++) {
