@@ -29,8 +29,8 @@ public class TaskC {
 
         for (int i = 0; i < n; i++) {
             if (c[i]) continue;
-            for (int j = i + 1; j < n; j++) {
-//                if (i == j) continue;
+            for (int j = 0; j < n; j++) {
+                if (i == j) continue;
                 if (!((a[i] < a[j] && b[i] < b[j]) || (a[i] > a[j] && b[i] > b[j]))) {
                     if (!c[i]) {
                         c[i] = true;
