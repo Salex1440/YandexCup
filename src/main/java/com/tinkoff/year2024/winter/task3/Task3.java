@@ -1,4 +1,4 @@
-package com.tinkoff.year2024.task3;
+package com.tinkoff.year2024.winter.task3;
 
 import java.io.*;
 import java.util.*;

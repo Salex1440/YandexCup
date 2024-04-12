@@ -1,4 +1,4 @@
-package com.tinkoff.year2024.task4;
+package com.tinkoff.year2024.winter.task4;
 
 import java.io.*;
 import java.util.ArrayList;
