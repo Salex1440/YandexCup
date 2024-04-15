@@ -4,11 +4,15 @@ import java.io.*;
 
 public class TaskA {
     public static void main(String[] args) throws IOException {
-        File file = new File("src/main/java/com/tinkoff/year2024/summer/taskA/input1.txt");
+        File file = new File("src/main/java/com/tinkoff/year2024/summer/taskA/input4.txt");
         BufferedReader br = new BufferedReader(new FileReader(file));
 //        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int n = Integer.parseInt(readWord(br));
+        if (n < 7) {
+            System.out.println(-1);
+            return;
+        }
         int[] m = new int[n];
         for (int i = 0; i < n; i++) {
             m[i] = Integer.parseInt(readWord(br));
@@ -32,14 +36,14 @@ public class TaskA {
             if (bads == 0) {
                 result[i] = fives;
             } else {
-                result[i] = 0;
+                result[i] = -1;
             }
         }
-        int max = result[7];
+        int max = result[6];
         for (int i = 7; i < n; i++) {
             max = Math.max(max, result[i]);
         }
-        System.out.println(max == 0 ? -1 : max);
+        System.out.println(max);
 
     }
 
